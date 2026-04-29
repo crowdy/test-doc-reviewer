@@ -27,3 +27,5 @@
 
 - Both inputs labeled with `aria-label`
 - Error region has `role="alert"`
+
+<!-- doc-reviewer test: trigger empty-section + broken-link findings -->
