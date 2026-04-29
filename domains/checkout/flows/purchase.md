@@ -16,7 +16,7 @@ sequenceDiagram
 
 ## Localization
 
-See [i18n notes](./i18n.md) for currency formatting and locale-aware labels.
+See [i18n notes](./i18n.md) for currency, date, and label localization.
 
 ## Error cases
 

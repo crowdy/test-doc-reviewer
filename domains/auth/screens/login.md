@@ -1,4 +1,4 @@
-# Login Screen
+# Login Screen Spec
 
 ## Layout
 
@@ -21,7 +21,7 @@
 - On 401, show inline error with `E_AUTH_01` text from glossary
 - On 200, redirect to `/dashboard`
 
-## Edge Cases
+## Edge cases
 
 ## Accessibility
 

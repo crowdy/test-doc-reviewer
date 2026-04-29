@@ -19,7 +19,7 @@ sequenceDiagram
 ## Error cases
 
 - E_AUTH_01: invalid credentials → display generic "이메일 또는 비밀번호가 일치하지 않습니다"
-- TBD: rate-limit policy when 5 consecutive failures occur within 10 minutes
+- TBD: rate-limit policy after consecutive failed attempts (lockout, captcha, or progressive delay)
 
 ## Notes
 

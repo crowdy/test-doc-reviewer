@@ -23,8 +23,8 @@ erDiagram
 | Column | Type | Notes |
 |---|---|---|
 | id | uuid | primary key |
-| email | text | unique within tenant |
-| password_hash | text | argon2id |
+| email | text | unique within tenant scope |
+| password_hash | text | argon2id (m=64MB, t=3, p=1) |
 
 ### sessions
 
