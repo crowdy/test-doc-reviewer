@@ -1,4 +1,4 @@
-# Login Screen
+# Login Screen Spec
 
 ## Layout
 
@@ -21,9 +21,11 @@
 - On 401, show inline error with `E_AUTH_01` text from glossary
 - On 200, redirect to `/dashboard`
 
-## Edge Cases
+## Edge cases
 
 ## Accessibility
 
 - Both inputs labeled with `aria-label`
 - Error region has `role="alert"`
+
+<!-- doc-reviewer test: trigger empty-section + broken-link findings -->

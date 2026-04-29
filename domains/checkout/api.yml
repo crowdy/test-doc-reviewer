@@ -18,4 +18,4 @@ paths:
                 properties:
                   error_code:
                     type: string
-                    enum: [E_PAY_01, E_PAY_02, E_PAY_99]
+                    enum: [E_PAY_01, E_PAY_02, E_PAY_99, E_PAY_FRAUD]
