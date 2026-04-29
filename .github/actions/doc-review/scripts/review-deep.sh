@@ -217,12 +217,29 @@ else
 fi
 
 # 5. Parse Claude response.
+# `claude --output-format json` wraps the model's reply as {type, result, ...}
+# where `result` is the raw text the model produced. The real review JSON
+# lives inside `result` as a string. Try the wrapped shape first; fall back
+# to treating the whole file as the review JSON for older claude CLIs.
+INNER="$WORK_DIR/claude-inner.json"
 if [ "$AI_OK" = "1" ] && [ -s "$CLAUDE_OUT" ]; then
-  if jq -e '.findings' "$CLAUDE_OUT" >/dev/null 2>&1; then
-    SUMMARY=$(jq -r '.summary // ""' "$CLAUDE_OUT")
-    jq -c '.findings[]' "$CLAUDE_OUT" >> "$FINDINGS"
+  if jq -e '.result | type == "string"' "$CLAUDE_OUT" >/dev/null 2>&1; then
+    jq -r '.result' "$CLAUDE_OUT" > "$INNER"
+  else
+    cp "$CLAUDE_OUT" "$INNER"
+  fi
+  # Strip optional ```json fences the model sometimes adds despite instructions.
+  if head -1 "$INNER" 2>/dev/null | grep -q '^```'; then
+    sed -i -e '1{/^```/d}' -e '${/^```$/d}' "$INNER"
+  fi
+  if jq -e '.findings' "$INNER" >/dev/null 2>&1; then
+    SUMMARY=$(jq -r '.summary // ""' "$INNER")
+    jq -c '.findings[]' "$INNER" >> "$FINDINGS"
   else
     SUMMARY="AI response was not valid JSON. Mechanical findings only."
+    echo "AI raw output preview:" >&2
+    head -c 800 "$INNER" >&2 || true
+    echo >&2
   fi
 fi
 

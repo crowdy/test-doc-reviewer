@@ -84,13 +84,15 @@ post_review() {
     '{event: "COMMENT", body: $body, comments: $comments}')
 
   if printf '%s' "$payload" | gh api "repos/$repo/pulls/$pr/reviews" \
-       --method POST --input - >/dev/null 2>"$err_log"; then
+       --method POST --input - >"$err_log" 2>&1; then
     echo "Posted review with $n_inline inline comments"
     return 0
   fi
 
   echo "WARN: review POST with $n_inline inline comments rejected:" >&2
   cat "$err_log" >&2
+  echo "WARN: rejected payload comments preview:" >&2
+  echo "$comments_json" | jq -c '.[] | {path, line, body: (.body[:80])}' >&2 || true
 
   local fallback_md
   fallback_md=$(jq -r '
@@ -107,7 +109,7 @@ post_review() {
     '{event: "COMMENT", body: $body, comments: []}')
 
   if printf '%s' "$payload" | gh api "repos/$repo/pulls/$pr/reviews" \
-       --method POST --input - >/dev/null 2>"$err_log"; then
+       --method POST --input - >"$err_log" 2>&1; then
     echo "Posted body-only review (fallback): $n_inline findings consolidated"
     return 0
   fi
