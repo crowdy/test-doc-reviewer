@@ -38,7 +38,7 @@ jobs:
 
       # Pin to a release tag (or 40-char commit SHA) once available.
       # NEVER use @main in production — see docs/setup.md "Security".
-      - uses: crowdy/conoha-cli-app-samples/github-pr-doc-reviewer/action@main
+      - uses: ./.github/actions/doc-review
         with:
           mode: ${{ contains(github.event.pull_request.labels.*.name, 'deep-review') && 'deep' || 'quick' }}
           paths: '**/*.md,**/*.yml,**/*.yaml,**/*.feature'
